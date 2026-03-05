@@ -1,0 +1,18 @@
+# Files and directories created by pub
+.dart_tool/
+.packages
+build/
+# If you're building an application, you may want to check-in your pubspec.lock
+pubspec.lock
+
+# Directory created by dartdoc
+doc/api/
+
+# Environment variables
+.env
+
+# Custom IDE settings
+.vscode/
+.idea/
+*.iml
+*.swp
