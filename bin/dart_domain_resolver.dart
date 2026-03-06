@@ -108,11 +108,18 @@ Future<void> _handleResolveRequest(
           final domainName = await resolver.getDomainName(tokenId);
           final records = await resolver.getAllRecords(tokenId);
 
+          String? tld;
+          if (domainName != null) {
+            final parts = domainName.split('.');
+            tld = parts.length > 1 ? parts.last : domainName;
+          }
+
           resultData = {
             'type': 'reverse',
             'input': input,
             'tokenId': tokenId.toString(),
             'domain': domainName ?? '[Name not found in metadata]',
+            'tld': tld ?? '[TLD not found in metadata]',
             'records': records ?? {},
           };
           resolvedNetwork = network;
@@ -125,10 +132,14 @@ Future<void> _handleResolveRequest(
         if (exists) {
           final records = await resolver.getAllRecords(tokenId);
 
+          final parts = input.split('.');
+          final tld = parts.length > 1 ? parts.last : input;
+
           resultData = {
             'type': 'forward',
             'input': input,
             'tokenId': tokenId.toString(),
+            'tld': tld,
             'records': records ?? {},
           };
           resolvedNetwork = network;
