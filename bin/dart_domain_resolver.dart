@@ -6,13 +6,15 @@ import 'package:dotenv/dotenv.dart';
 void main(List<String> arguments) async {
   var env = DotEnv(includePlatformEnvironment: true)..load();
 
-  final apiKey = env['ALCHEMY_API_KEY'];
+  // Prefer Platform environment (for Docker/Coolify runtime), fallback to .env
+  final apiKey =
+      Platform.environment['ALCHEMY_API_KEY'] ?? env['ALCHEMY_API_KEY'];
   if (apiKey == null || apiKey.isEmpty) {
-    print('Error: Missing ALCHEMY_API_KEY in .env file.');
+    print('Error: Missing ALCHEMY_API_KEY in environment or .env file.');
     exit(1);
   }
 
-  final portStr = env['PORT'];
+  final portStr = Platform.environment['PORT'] ?? env['PORT'];
   final port = (portStr != null && portStr.isNotEmpty)
       ? int.tryParse(portStr) ?? 8080
       : 8080;
