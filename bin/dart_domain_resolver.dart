@@ -25,7 +25,8 @@ void main(List<String> arguments) async {
       ? int.tryParse(portStr) ?? 8080
       : 8080;
 
-  final server = await HttpServer.bind(InternetAddress.anyIPv4, port);
+  // Bind to any IPv6 (which implicitly bindings to IPv4 on Linux) to ensure Docker port mapping works
+  final server = await HttpServer.bind(InternetAddress.anyIPv6, port);
   print('Server listening on port $port');
 
   await for (HttpRequest request in server) {
