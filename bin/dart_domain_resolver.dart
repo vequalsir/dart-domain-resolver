@@ -4,7 +4,13 @@ import 'package:dart_domain_resolver/src/freename_resolver.dart';
 import 'package:dotenv/dotenv.dart';
 
 void main(List<String> arguments) async {
-  var env = DotEnv(includePlatformEnvironment: true)..load();
+  // Initialize DotEnv (don't load yet)
+  var env = DotEnv(includePlatformEnvironment: true);
+
+  // Load .env only if it exists (local development)
+  if (File('.env').existsSync()) {
+    env.load();
+  }
 
   // Prefer Platform environment (for Docker/Coolify runtime), fallback to .env
   final apiKey =
